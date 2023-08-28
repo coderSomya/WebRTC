@@ -26,15 +26,19 @@ const sockettoemailmapping = new Map();
 
 
 io.on("connection", (socket)=>{
-    console.log(socket.id)
+   
   socket.on('join-room', (data)=>{
     const {emailid, roomid} = data;
     console.log("user", emailid, "joined in room", roomid)
     socket.join(roomid);
+    socket.emit("joined-room", {
+        roomid
+    })
     emailtosocketmapping.set(emailid, socket.id)
     socket.broadcast.to(roomid).emit('user-joined', {emailid})
-    socket.broadcast.to(roomid).emit("user-joined", {emailid});
   });
+
+
 })
 
 app.listen(port1, ()=>{
