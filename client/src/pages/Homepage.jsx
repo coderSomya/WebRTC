@@ -1,17 +1,25 @@
 import React, {useState, useEffect} from "react";
 import './Homepage.css'
 import { useSocket } from "../providers/Socket";
+import { useNavigate } from "react-router-dom";
 
 
 const Homepage = ()=>{
-
+    
+    const {socket} = useSocket();
+    const navigate= useNavigate();
     const [email, setEmail] = useState("");
     const [room, setRoom] = useState("");
    
+    const handleRoomJoined = ({roomid})=>{
+   navigate(`/room/${roomid}`)
+    }
+   
 
-
-
-   const {socket} = useSocket();
+   
+   useEffect(()=>{
+    socket.on('joined-room', handleRoomJoined)
+}, [socket])
    const handleJoinRoom= ()=>{
       
       socket.emit("join-room", {emailid:email, roomid:room});
