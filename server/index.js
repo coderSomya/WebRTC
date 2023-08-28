@@ -1,16 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-// const {Server} = require('socket.io')
+const {Server} = require('socket.io')
 // const cors= require('cors')
 
-// const io = new Server();
+const io = new Server({
+    cors:true
+});
 const app = express();
-const http = require("http").createServer(app);
-const io=require('socket.io')(http, {
-    cors: {
-        origin:"*"
-    }
-})
+// const http = require("http").createServer(app);
+// const io=require('socket.io')(http, {
+//     cors: {
+//         origin:"*"
+//     }
+// })
 
 const port1 =8000;
 const port2= 8001;
