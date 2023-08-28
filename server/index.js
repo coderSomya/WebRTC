@@ -35,8 +35,17 @@ io.on("connection", (socket)=>{
         roomid
     })
     emailtosocketmapping.set(emailid, socket.id)
+    sockettoemailmapping.set(socket.id, emailid);
     socket.broadcast.to(roomid).emit('user-joined', {emailid})
   });
+
+  socket.on('call-user', (data)=>{
+   const {emailid, offer} = data;
+   
+   const socketid= emailtosocketmapping.get(emailid);
+   const from = sockettoemailmapping
+   socket.to(socketid).emit('incoming-call')
+  })
 
 
 })

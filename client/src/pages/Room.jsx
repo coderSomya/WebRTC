@@ -1,15 +1,18 @@
-import React, {useEffect} from 'react' 
+import React, {useEffect, useCallback} from 'react' 
 import "./Room.css"
 import {useSocket} from "../providers/Socket"
+import { usePeer } from '../providers/Peer'
 
 const Room = () => {
   
    const {socket} = useSocket();
+   const {Peer, createOffer} = usePeer();
 
-   const handleNewUserJoined =(data)=>{
+   const handleNewUserJoined = useCallback(async (data)=>{
       const {emailid} = data;
-      alert("new user joined", emailid);
-   }
+      const offer = await createOffer();
+      socket.emit('call-user', {emailid, offer})
+   }, [createOffer, socket])
 
    useEffect(()=>{
     socket.on('user-joined', handleNewUserJoined)
