@@ -1,8 +1,12 @@
 import React from "react";
 import './Homepage.css'
+import { useSocket } from "../providers/Socket";
 
 
 const Homepage = ()=>{
+
+   const {socket} = useSocket();
+   socket.emit('join-room', {roomid:1, emailid: "a@b.com"});
    return(
     <>
    <div className="homepage-container">
